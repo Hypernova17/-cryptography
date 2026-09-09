@@ -42,6 +42,7 @@ def descifrado_decimado(bytes_cifrados, k):
     Descifra los bytes cifrados multiplicándolos por el inverso multiplicativo de la clave k y 
     aplicando el modulo 256
     """
+    
     #quitamos los pares
     if k % 2 == 0:
         raise ValueError(f"La clave {k} debe ser impar")
@@ -100,4 +101,5 @@ def romper_decimado(ruta_archivo):
 
                 return
             
-romper_decimado("decimado.lol")
+if __name__ == "__main__":
+    romper_decimado("decimado.lol")
