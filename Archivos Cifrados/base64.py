@@ -1,10 +1,16 @@
-
 #Base64 codificación
 
 ALFABETO = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 #Esta funcion convierte los bytes en cóigo binario :)
-def encode(archivo_ini : str, arch_destino: str) -> None:
+def encode(archivo_ini : str) -> None:  # CAMBIO: ya no recibe arch_destino
+    # AGREGADO: se calcula arch_destino a partir de archivo_ini
+    if "." in archivo_ini:
+        nombre_base = archivo_ini[:archivo_ini.rfind(".")]
+    else:
+        nombre_base = archivo_ini
+    arch_destino = nombre_base + ".b64"  # AGREGADO: extensión fija para el archivo codificado
+
     with open(archivo_ini, "rb") as f:
         datos = f.read()
 
@@ -39,7 +45,14 @@ def encode(archivo_ini : str, arch_destino: str) -> None:
     print(f"El archivo fue codificado en: '{arch_destino}'")
 
 
-def decode(arch_ini: str, arch_destino: str) -> None:
+def decode(arch_ini: str) -> None:  # CAMBIO: ya no recibe arch_destino
+    # AGREGADO: se calcula un arch_destino base a partir de arch_ini
+    if "." in arch_ini:
+        nombre_base = arch_ini[:arch_ini.rfind(".")]
+    else:
+        nombre_base = arch_ini
+    arch_destino = nombre_base  # AGREGADO: sin extensión todavía, se define más abajo con extension()
+
     with open(arch_ini, "r", encoding="utf-8") as f:
         texto = f.read().strip()
 
@@ -70,6 +83,16 @@ def decode(arch_ini: str, arch_destino: str) -> None:
         pedazo = binary [i : i + 8]
         inicial = int(pedazo, 2)
         resultado.append(inicial)
+        
+    extens= extension(bytes(resultado))
+    if extens:
+        if "." in arch_destino:
+            nombre_base = arch_destino[:arch_destino.rfind(".")]
+        else:
+            nombre_base = arch_destino
+        arch_destino = nombre_base + extens
+    else:  # AGREGADO: si no se detecta extensión, se usa una por defecto
+        arch_destino = arch_destino + ".bin"  # AGREGADO
 
     with open(arch_destino, "wb") as f:
         f.write(resultado)
@@ -100,5 +123,6 @@ def extension(datos: bytes) -> str:
     elif cabecera.startswith(b"GIF87a") or cabecera.startswith(b"GIF89a"):
         return ".gif"
 
-    
 
+if __name__ == "__main__":
+    decode("base64.lol")
