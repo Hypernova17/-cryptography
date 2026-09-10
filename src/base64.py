@@ -1,15 +1,14 @@
-#Base64 codificación
+
 
 ALFABETO = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 #Esta funcion convierte los bytes en cóigo binario :)
-def encode(archivo_ini : str) -> None:  # CAMBIO: ya no recibe arch_destino
-    # AGREGADO: se calcula arch_destino a partir de archivo_ini
+def encode(archivo_ini : str) -> None:  
     if "." in archivo_ini:
         nombre_base = archivo_ini[:archivo_ini.rfind(".")]
     else:
         nombre_base = archivo_ini
-    arch_destino = nombre_base + ".b64"  # AGREGADO: extensión fija para el archivo codificado
+    arch_destino = nombre_base + ".b64"  
 
     with open(archivo_ini, "rb") as f:
         datos = f.read()
@@ -45,13 +44,12 @@ def encode(archivo_ini : str) -> None:  # CAMBIO: ya no recibe arch_destino
     print(f"El archivo fue codificado en: '{arch_destino}'")
 
 
-def decode(arch_ini: str) -> None:  # CAMBIO: ya no recibe arch_destino
-    # AGREGADO: se calcula un arch_destino base a partir de arch_ini
+def decode(arch_ini: str) -> None:  
     if "." in arch_ini:
         nombre_base = arch_ini[:arch_ini.rfind(".")]
     else:
         nombre_base = arch_ini
-    arch_destino = nombre_base  # AGREGADO: sin extensión todavía, se define más abajo con extension()
+    arch_destino = nombre_base 
 
     with open(arch_ini, "r", encoding="utf-8") as f:
         texto = f.read().strip()
